@@ -1,0 +1,183 @@
+:root {
+    --bg: #000000;
+    --text: #ffffff;
+    --accent: #00f2ff;
+    --ia-accent: #a347ff;
+    /* Glassmorphism extremo: 0.5% de opacidad para máxima transparencia */
+    --card-bg: rgba(255, 255, 255, 0.005);
+    --border: rgba(255, 255, 255, 0.05);
+}
+
+body.light-mode {
+    --bg: #ffffff;
+    --text: #000000;
+    --accent: #0000ff;
+    --ia-accent: #8a2be2;
+    --card-bg: rgba(0, 0, 0, 0.005);
+    --border: rgba(0, 0, 0, 0.03);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: background-color 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+#antigravity-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+
+#app { width: 100%; max-width: 420px; z-index: 10; padding: 20px; }
+.hidden { display: none !important; }
+
+/* --- MENÚ --- */
+.menu-title {
+    text-align: center; font-size: 10px; letter-spacing: 7px;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 45px;
+    opacity: 0.6;
+}
+
+.category-list { display: flex; flex-direction: column; gap: 12px; }
+
+/* BOTONES DEL MENÚ: Ahora tan transparentes como las tarjetas */
+.category-btn {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border) !important;
+    padding: 18px;
+    border-radius: 20px;
+    color: var(--text);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.category-btn:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent) !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* --- BOTÓN IA MENÚ --- */
+.btn-ia {
+    width: 100%;
+    margin-top: 25px; 
+    background: rgba(163, 71, 255, 0.02) !important;
+    border: 1px solid var(--ia-accent) !important;
+    color: var(--ia-accent) !important;
+    font-weight: bold;
+}
+
+/* --- TARJETAS (APPLE GLASS EFFECT - TODOS LOS RECUADROS) --- */
+.card, .ia-card {
+    padding: 50px 30px; 
+    text-align: center;
+    background: var(--card-bg) !important; 
+    border: 1px solid var(--border) !important;
+    border-radius: 40px !important; /* Más redondeado, más orgánico */
+    
+    /* Desenfoque masivo y saturación para el efecto "Air Glass" */
+    backdrop-filter: blur(50px) saturate(200%) !important; 
+    -webkit-backdrop-filter: blur(50px) saturate(200%);
+    
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.emoji { font-size: 50px; display: block; margin-bottom: 20px; }
+h2 { font-weight: 200; font-size: 24px; margin-bottom: 25px; letter-spacing: 1px; }
+
+/* --- INPUTS Y TEXTAREA (TRANSPARENCIA TOTAL) --- */
+input, #userInputIA {
+    background: transparent !important; 
+    border: none !important; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: var(--text); 
+    width: 100%; 
+    padding: 12px; 
+    font-size: 19px;
+    text-align: center; 
+    outline: none; 
+    transition: all 0.4s ease;
+    font-family: inherit;
+}
+
+#userInputIA {
+    height: 75px;
+    resize: none;
+    margin-bottom: 15px;
+    font-size: 17px;
+}
+
+input:focus, #userInputIA:focus { 
+    border-bottom-color: var(--ia-accent) !important; 
+}
+
+/* --- ELEMENTOS IA --- */
+.token-meter { margin-bottom: 25px; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
+.token-header { display: flex; justify-content: space-between; margin-bottom: 8px; opacity: 0.5; }
+.progress-bar { height: 3px; background: rgba(255,255,255,0.02); border-radius: 10px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0%; background: var(--ia-accent); box-shadow: 0 0 10px var(--ia-accent); transition: width 0.8s ease; }
+
+.tense-selector { display: flex; gap: 8px; margin-bottom: 25px; }
+.tense-btn { 
+    flex: 1; background: rgba(255, 255, 255, 0.01); border: 1px solid var(--border); 
+    color: var(--text); padding: 12px; border-radius: 50px; 
+    font-size: 9px; cursor: pointer; transition: 0.3s; text-transform: uppercase;
+}
+.tense-btn.active { 
+    background: rgba(163, 71, 255, 0.12);
+    border-color: var(--ia-accent); 
+    color: var(--ia-accent); 
+}
+
+.spanish-display { 
+    min-height: 70px; display: flex; align-items: center; justify-content: center; 
+    font-size: 19px; font-weight: 200; text-align: center; line-height: 1.5;
+    padding: 10px; margin-bottom: 10px;
+}
+
+.button-group { display: flex; gap: 10px; margin-top: 15px; }
+.category-btn.secondary { 
+    opacity: 0.4; 
+    font-size: 8px; 
+    background: transparent !important;
+}
+
+.ia-feedback { 
+    margin: 10px 0; font-size: 11px; font-weight: 600; 
+    color: var(--ia-accent); min-height: 20px; letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* --- UTILIDADES --- */
+.back-link { 
+    color: var(--accent); font-size: 9px; font-weight: 800;
+    cursor: pointer; margin-bottom: 20px; display: inline-block;
+    letter-spacing: 3px; text-transform: uppercase; opacity: 0.5;
+    transition: 0.3s;
+}
+.back-link:hover { opacity: 1; }
+
+#theme-toggle {
+    position: fixed; top: 20px; right: 20px;
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text); width: 42px; height: 42px;
+    border-radius: 50%; cursor: pointer; z-index: 100;
+    backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center;
+}
+
+#feedback { 
+    margin-top: 25px; font-size: 11px; font-weight: bold; 
+    color: var(--accent); letter-spacing: 2px; text-transform: uppercase;
+    opacity: 0.8;
+}

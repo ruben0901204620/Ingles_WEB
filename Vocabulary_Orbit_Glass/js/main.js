@@ -56,18 +56,18 @@ class Particle {
         this.hue     = Math.random() * 360;
 
         // Tier determina el estilo visual:
-        // tier 2 → orb grande con gradiente + núcleo blanco  (z > 0.68)
-        // tier 1 → punto medio con mini-halo               (z > 0.34)
-        // tier 0 → estrella diminuta                       (resto)
+        // tier 2 → orb con gradiente + núcleo blanco  (z > 0.68)
+        // tier 1 → punto medio con mini-halo          (z > 0.34)
+        // tier 0 → estrella diminuta                  (resto)
         this.tier = this.z > 0.68 ? 2 : this.z > 0.34 ? 1 : 0;
 
-        // Tamaño base por tier
+        // Tamaño base por tier (reducidos)
         if (this.tier === 2) {
-            this.size = (this.z * 3.2) + 1.2;   // 3.4 – 4.4 px core, halo ×3.5
+            this.size = (this.z * 1.8) + 0.6;   // core más pequeño, halo ×2.6
         } else if (this.tier === 1) {
-            this.size = (this.z * 2.0) + 0.6;   // 1.3 – 2.6 px
+            this.size = (this.z * 1.2) + 0.35;  // 0.7 – 1.55 px
         } else {
-            this.size = (this.z * 1.2) + 0.15;  // 0.15 – 0.97 px
+            this.size = (this.z * 0.8) + 0.10;  // 0.1 – 0.9 px
         }
     }
 
@@ -78,7 +78,7 @@ class Particle {
         if (this.tier === 2) {
             // ── ORB BRILLANTE ──────────────────────────────────────────
             // Capa 1: halo exterior suave
-            const haloR = this.size * 3.8;
+            const haloR = this.size * 2.6;
             const halo  = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, haloR);
 
             if (isAllMode) {
@@ -110,7 +110,7 @@ class Particle {
 
         } else if (this.tier === 1) {
             // ── PUNTO CON MINI-GRADIENTE ───────────────────────────────
-            const r2 = this.size * 2.2;
+            const r2 = this.size * 1.8;
             const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, r2);
 
             if (isAllMode) {

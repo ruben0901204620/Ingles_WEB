@@ -1,4 +1,4 @@
-const API_KEY = "TU_API"; 
+const API_KEY = "TU_API_KEY";
 const API_URL = "TU_API_URL";
 const TOKEN_LIMIT = 5000000;
 

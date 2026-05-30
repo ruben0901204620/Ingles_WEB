@@ -11,27 +11,42 @@
     <canvas id="antigravity-canvas"></canvas>
 
     <div id="app">
+        <!-- MENÚ PRINCIPAL: solo 3 botones -->
         <section id="menu-screen">
             <h1 class="menu-title">Vocabulary Orbit</h1>
-            <div class="category-list"></div>
-            <button class="category-btn btn-ia" onclick="showIAScreen()">
-                🤖 IA Sentence Generator
-            </button>
+            <div class="category-list main-menu-list">
+                <button class="category-btn btn-level" onclick="showLevelScreen()">
+                    📚 Level 1
+                </button>
+                <button class="category-btn btn-all" onclick="start('ALL')">
+                    🌌 All-in-One Universe
+                </button>
+                <button class="category-btn btn-ia" onclick="showIAScreen()">
+                    🤖 IA Sentence Generator
+                </button>
+            </div>
         </section>
 
-        <section id="game-screen" class="hidden">
-    <span class="back-link" onclick="goBack()">← Volver</span>
-    <div class="card">
-        <span class="emoji" id="display-emoji"></span>
-        <h2 id="display-word"></h2>
-        <input type="text" id="user-input" placeholder="Escribe en inglés..." autocomplete="off">
-        
-        <button id="check-btn-normal" class="category-btn" style="margin-top: 20px; width: 100%;">Verificar</button>
-        
-        <div id="feedback"></div>
-    </div>
-</section>
+        <!-- PANTALLA LEVEL 1: lista de categorías -->
+        <section id="level-screen" class="hidden">
+            <span class="back-link" onclick="goToMenu()">← Volver</span>
+            <h1 class="menu-title" style="margin-bottom: 20px;">Level 1</h1>
+            <div class="category-list" id="level-category-list"></div>
+        </section>
 
+        <!-- PANTALLA DE JUEGO -->
+        <section id="game-screen" class="hidden">
+            <span class="back-link" onclick="goBack()">← Volver</span>
+            <div class="card">
+                <span class="emoji" id="display-emoji"></span>
+                <h2 id="display-word"></h2>
+                <input type="text" id="user-input" placeholder="Escribe en inglés..." autocomplete="off">
+                <button id="check-btn-normal" class="category-btn" style="margin-top: 20px; width: 100%;">Verificar</button>
+                <div id="feedback"></div>
+            </div>
+        </section>
+
+        <!-- PANTALLA IA -->
         <section id="ia-screen" class="hidden">
             <span class="back-link" onclick="goBack()">← Volver al Menú</span>
             <div class="card ia-card">

@@ -4,6 +4,9 @@ let isLightMode = false;
 let isAllMode = false;
 let starRGB = { r: 0, g: 242, b: 255 };
 
+// Recuerda desde dónde se llegó al juego: 'level' o 'menu'
+let cameFromLevel = false;
+
 const canvas = document.getElementById('antigravity-canvas');
 const ctx = canvas.getContext('2d');
 let particles = [];
@@ -27,19 +30,45 @@ function updateThemeColor() {
     }
 }
 
+/* ── NAVEGACIÓN ─────────────────────────────────────────────── */
+
+function showLevelScreen() {
+    document.getElementById('menu-screen').classList.add('hidden');
+    document.getElementById('level-screen').classList.remove('hidden');
+    updateThemeColor();
+}
+
 function showIAScreen() {
     document.getElementById('menu-screen').classList.add('hidden');
     document.getElementById('ia-screen').classList.remove('hidden');
     updateThemeColor();
 }
 
-function goBack() {
-    isAllMode = false;
+function goToMenu() {
+    document.getElementById('level-screen').classList.add('hidden');
     document.getElementById('game-screen').classList.add('hidden');
     document.getElementById('ia-screen').classList.add('hidden');
     document.getElementById('menu-screen').classList.remove('hidden');
+    isAllMode = false;
+    cameFromLevel = false;
     updateThemeColor();
 }
+
+function goBack() {
+    document.getElementById('game-screen').classList.add('hidden');
+    document.getElementById('ia-screen').classList.add('hidden');
+
+    if (cameFromLevel) {
+        document.getElementById('level-screen').classList.remove('hidden');
+    } else {
+        document.getElementById('menu-screen').classList.remove('hidden');
+        isAllMode = false;
+    }
+    cameFromLevel = false;
+    updateThemeColor();
+}
+
+/* ── PARTÍCULAS ─────────────────────────────────────────────── */
 
 class Particle {
     constructor() { this.init(); }
@@ -54,20 +83,13 @@ class Particle {
         this.speed   = (0.0001 + Math.random() * 0.0001) * (this.z + 0.5);
         this.opacity = (this.z * 0.45) + 0.15;
         this.hue     = Math.random() * 360;
-
-        // Tier determina el estilo visual:
-        // tier 2 → orb con gradiente + núcleo blanco  (z > 0.68)
-        // tier 1 → punto medio con mini-halo          (z > 0.34)
-        // tier 0 → estrella diminuta                  (resto)
         this.tier = this.z > 0.68 ? 2 : this.z > 0.34 ? 1 : 0;
-
-        // Tamaño base por tier (reducidos)
         if (this.tier === 2) {
-            this.size = (this.z * 1.8) + 0.6;   // core más pequeño, halo ×2.6
+            this.size = (this.z * 1.8) + 0.6;
         } else if (this.tier === 1) {
-            this.size = (this.z * 1.2) + 0.35;  // 0.7 – 1.55 px
+            this.size = (this.z * 1.2) + 0.35;
         } else {
-            this.size = (this.z * 0.8) + 0.10;  // 0.1 – 0.9 px
+            this.size = (this.z * 0.8) + 0.10;
         }
     }
 
@@ -76,11 +98,8 @@ class Particle {
         const alpha = isLightMode ? Math.min(1, this.opacity + 0.35) : this.opacity;
 
         if (this.tier === 2) {
-            // ── ORB BRILLANTE ──────────────────────────────────────────
-            // Capa 1: halo exterior suave
             const haloR = this.size * 2.6;
             const halo  = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, haloR);
-
             if (isAllMode) {
                 halo.addColorStop(0,   `hsla(${this.hue}, 100%, 98%, ${alpha})`);
                 halo.addColorStop(0.18,`hsla(${this.hue},  90%, 72%, ${alpha * 0.85})`);
@@ -92,13 +111,10 @@ class Particle {
                 halo.addColorStop(0.50,`rgba(${r}, ${g}, ${b}, ${alpha * 0.28})`);
                 halo.addColorStop(1,   `rgba(${r}, ${g}, ${b}, 0)`);
             }
-
             ctx.fillStyle = halo;
             ctx.beginPath();
             ctx.arc(this.x, this.y, haloR, 0, Math.PI * 2);
             ctx.fill();
-
-            // Capa 2: núcleo sólido blanco pequeño (el "punto caliente")
             const coreAlpha = isAllMode ? alpha : Math.min(1, alpha + 0.3);
             const coreColor = isAllMode
                 ? `hsla(${this.hue}, 100%, 98%, ${coreAlpha})`
@@ -109,10 +125,8 @@ class Particle {
             ctx.fill();
 
         } else if (this.tier === 1) {
-            // ── PUNTO CON MINI-GRADIENTE ───────────────────────────────
             const r2 = this.size * 1.8;
             const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, r2);
-
             if (isAllMode) {
                 grad.addColorStop(0,  `hsla(${this.hue}, 95%, 90%, ${alpha * 0.9})`);
                 grad.addColorStop(0.5,`hsla(${this.hue}, 80%, 60%, ${alpha * 0.5})`);
@@ -122,14 +136,12 @@ class Particle {
                 grad.addColorStop(0.5,`rgba(${r}, ${g}, ${b}, ${alpha * 0.30})`);
                 grad.addColorStop(1,  `rgba(${r}, ${g}, ${b}, 0)`);
             }
-
             ctx.fillStyle = grad;
             ctx.beginPath();
             ctx.arc(this.x, this.y, r2, 0, Math.PI * 2);
             ctx.fill();
 
         } else {
-            // ── ESTRELLA DIMINUTA (sin gradiente → máx rendimiento) ────
             const dotAlpha = isAllMode
                 ? `hsla(${this.hue}, 75%, 65%, ${alpha * 0.7})`
                 : `rgba(${r}, ${g}, ${b}, ${alpha * 0.6})`;
@@ -141,7 +153,6 @@ class Particle {
     }
 
     update() {
-        // ── FÍSICA ORIGINAL SIN CAMBIOS ────────────────────────────────
         const depthFactor = (this.z * 0.0018) + 0.0004;
         const tx = mouse.x + Math.cos(this.angle) * this.radius;
         const ty = mouse.y + Math.sin(this.angle) * this.radius;
@@ -164,40 +175,45 @@ function animate() {
     if (!canvas) return;
     mouse.x += (mouse.targetX - mouse.x) * 0.003;
     mouse.y += (mouse.targetY - mouse.y) * 0.003;
-
-    // Trail semitransparente — igual que antes
     ctx.fillStyle = isLightMode ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.35)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Dibuja tier 0 primero (fondo), luego tier 1, luego tier 2 encima
     for (let t = 0; t < 3; t++) {
         particles.forEach(p => { if (p.tier === t) { p.update(); p.draw(); } });
     }
-
     requestAnimationFrame(animate);
 }
 
+/* ── INICIALIZACIÓN ─────────────────────────────────────────── */
+
 function init() {
-    const listContainer = document.querySelector('.category-list');
-    if (!listContainer) return;
-    listContainer.innerHTML = '';
+    // Llenar la pantalla Level 1 con todas las categorías del diccionario
+    const levelList = document.getElementById('level-category-list');
+    if (!levelList) return;
+    levelList.innerHTML = '';
 
     Object.keys(VOCABULARY).forEach(cat => {
         const btn = document.createElement('button');
         btn.className = 'category-btn';
         btn.innerText = cat;
-        btn.onclick = () => start(cat);
-        listContainer.appendChild(btn);
+        btn.onclick = () => startFromLevel(cat);
+        levelList.appendChild(btn);
     });
+}
 
-    const allBtn = document.createElement('button');
-    allBtn.className = 'category-btn btn-all';
-    allBtn.innerText = "🌌 All-in-One Universe";
-    allBtn.onclick = () => start("ALL");
-    listContainer.appendChild(allBtn);
+function startFromLevel(cat) {
+    cameFromLevel = true;
+    isAllMode = false;
+    currentList = [...VOCABULARY[cat]];
+    currentList.sort(() => Math.random() - 0.5);
+    currentIndex = 0;
+    updateThemeColor();
+    document.getElementById('level-screen').classList.add('hidden');
+    document.getElementById('game-screen').classList.remove('hidden');
+    loadQuestion();
 }
 
 function start(mode) {
+    cameFromLevel = false;
     isAllMode = (mode === "ALL");
     currentList = isAllMode ? Object.values(VOCABULARY).flat() : [...VOCABULARY[mode]];
     currentList.sort(() => Math.random() - 0.5);

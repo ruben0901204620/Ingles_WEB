@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Orbit</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <button id="theme-toggle" onclick="toggleTheme()">🌓</button>
+    <canvas id="antigravity-canvas"></canvas>
+
+    <div id="app">
+
+        <!-- ══ MENÚ PRINCIPAL ══════════════════════════════════════ -->
+        <section id="menu-screen">
+            <h1 class="menu-title">Vocabulary Orbit</h1>
+            <div class="category-list main-menu-list">
+
+                <!-- Los botones de nivel se generan automáticamente
+                     desde LEVELS_CONFIG en main.js              -->
+                <div id="level-buttons-container"></div>
+
+                <button class="category-btn btn-all" onclick="startAllInOne()">
+                    🌌 All-in-One Universe
+                </button>
+                <button class="category-btn btn-ia" onclick="showIAScreen()">
+                    🤖 IA Sentence Generator
+                </button>
+            </div>
+        </section>
+
+        <!-- ══ PANTALLA DE NIVEL (categorías) ═════════════════════ -->
+        <section id="level-screen" class="hidden">
+            <span class="back-link" onclick="goToMenu()">← Volver</span>
+            <h1 class="menu-title" id="level-screen-title">Level 1</h1>
+            <div class="category-list" id="level-category-list"></div>
+        </section>
+
+        <!-- ══ PANTALLA DE JUEGO ═══════════════════════════════════ -->
+        <section id="game-screen" class="hidden">
+            <span class="back-link" onclick="goBack()">← Volver</span>
+            <div class="card">
+                <span class="emoji" id="display-emoji"></span>
+                <h2 id="display-word"></h2>
+                <input type="text" id="user-input"
+                       placeholder="Escribe en inglés..."
+                       autocomplete="off">
+                <button id="check-btn-normal" class="category-btn"
+                        style="margin-top:20px;width:100%;">
+                    Verificar
+                </button>
+                <div id="feedback"></div>
+            </div>
+        </section>
+
+        <!-- ══ PANTALLA IA ═════════════════════════════════════════ -->
+        <section id="ia-screen" class="hidden">
+            <span class="back-link" onclick="goToMenu()">← Volver al Menú</span>
+            <div class="card ia-card">
+                <div class="token-meter" title="Doble clic para resetear">
+                    <div class="token-header">
+                        <span>Tokens IA (OpenRouter)</span>
+                        <span id="tokenPercentage">0.0000%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+                <div class="tense-selector">
+                    <button class="tense-btn active" data-tense="past">Pasado</button>
+                    <button class="tense-btn" data-tense="present">Presente</button>
+                    <button class="tense-btn" data-tense="continuous">Continuo</button>
+                </div>
+                <div class="spanish-display">
+                    <p id="spanishSentence">Elige un tiempo y pulsa Generar</p>
+                </div>
+                <textarea id="userInputIA"
+                          placeholder="Traduce la oración aquí..."></textarea>
+                <div id="feedbackIA" class="ia-feedback"></div>
+                <div class="button-group">
+                    <button id="checkBtnIA"  class="category-btn">Verificar</button>
+                    <button id="resetBtnIA"  class="category-btn">✨ Generar Oración</button>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- /#app -->
+
+    <!-- ══ VOCABULARIO — Level 1 ═══════════════════════════════════
+         Para agregar una categoría: añade un <script> aquí debajo
+         y registra la variable en js/levels-config.js             -->
+    <script src="js/levels/level1/countries.js"></script>
+    <script src="js/levels/level1/personal-objects.js"></script>
+    <script src="js/levels/level1/jobs.js"></script>
+    <script src="js/levels/level1/family.js"></script>
+    <script src="js/levels/level1/daily-routine.js"></script>
+    <script src="js/levels/level1/weather.js"></script>
+    <script src="js/levels/level1/clothes.js"></script>
+    <script src="js/levels/level1/hobbies.js"></script>
+    <script src="js/levels/level1/rooms-furniture.js"></script>
+    <script src="js/levels/level1/places-city.js"></script>
+    <script src="js/levels/level1/adjectives.js"></script>
+    <script src="js/levels/level1/food-drinks.js"></script>
+    <script src="js/levels/level1/containers.js"></script>
+    <script src="js/levels/level1/inventions.js"></script>
+    <script src="js/levels/level1/life-stages.js"></script>
+
+    <!-- ══ VOCABULARIO — Level 2 (cuando lo agregues) ══════════════
+    <script src="js/levels/level2/animals.js"></script>
+    <script src="js/levels/level2/sports.js"></script>
+    -->
+
+    <!-- ══ CONFIGURACIÓN Y LÓGICA ══════════════════════════════════ -->
+    <script src="js/levels-config.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/ia-logic.js"></script>
+
+</body>
+</html>

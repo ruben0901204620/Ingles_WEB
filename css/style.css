@@ -1,0 +1,417 @@
+:root {
+    --bg: #000000;
+    --text: #ffffff;
+    --accent: #00f2ff;
+    --ia-accent: #a347ff;
+
+    /* Apple Glass – dark mode (más oscuro) */
+    --glass-bg:          rgba(0, 0, 0, 0.45);
+    --glass-bg-hover:    rgba(0, 242, 255, 0.10);
+    --glass-bg-active:   rgba(0, 242, 255, 0.16);
+    --glass-border:      rgba(255, 255, 255, 0.12);
+    --glass-border-hover:rgba(0, 242, 255, 0.60);
+    --glass-shine:       rgba(255, 255, 255, 0.14);
+    --glass-shadow:      rgba(0, 0, 0, 0.55);
+
+    --card-bg: var(--glass-bg);
+    --border:  var(--glass-border);
+}
+
+body.light-mode {
+    --bg: #d4d8e2;
+    --text: #0a0a12;
+    --accent: #0044ff;
+    --ia-accent: #7b2be2;
+
+    /* Apple Glass – light mode (también más oscuro/definido) */
+    --glass-bg:          rgba(180, 190, 210, 0.55);
+    --glass-bg-hover:    rgba(0, 68, 255, 0.10);
+    --glass-bg-active:   rgba(0, 68, 255, 0.18);
+    --glass-border:      rgba(255, 255, 255, 0.55);
+    --glass-border-hover:rgba(0, 68, 255, 0.60);
+    --glass-shine:       rgba(255, 255, 255, 0.70);
+    --glass-shadow:      rgba(0, 0, 0, 0.18);
+
+    --card-bg: var(--glass-bg);
+    --border:  var(--glass-border);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: background-color 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+#antigravity-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+#app { width: 100%; max-width: 420px; z-index: 10; padding: 20px; }
+.hidden { display: none !important; }
+
+/* ─── MENÚ ─── */
+.menu-title {
+    text-align: center; font-size: 10px; letter-spacing: 7px;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 45px;
+    opacity: 0.6;
+}
+.category-list { display: flex; flex-direction: column; gap: 12px; }
+
+/* ─── BOTONES DEL MENÚ – Apple glass oscuro + hover cian ─── */
+.category-btn {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(32px) saturate(180%) brightness(0.90);
+    -webkit-backdrop-filter: blur(32px) saturate(180%) brightness(0.90);
+    box-shadow:
+        0 6px 28px var(--glass-shadow),
+        inset 0 1px 0 var(--glass-shine),
+        inset 0 -1px 0 rgba(0,0,0,0.20);
+    padding: 18px;
+    border-radius: 20px;
+    color: var(--text);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.32s cubic-bezier(0.2, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Sheen diagonal que aparece en hover */
+.category-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg,
+        rgba(0, 242, 255, 0.08) 0%,
+        rgba(0, 242, 255, 0.00) 60%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+/* HOVER: glass cian */
+.category-btn:hover {
+    transform: translateY(-3px);
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-hover);
+    color: var(--accent);
+    text-shadow: 0 0 12px rgba(0, 242, 255, 0.6);
+    box-shadow:
+        0 12px 36px var(--glass-shadow),
+        0 0 20px rgba(0, 242, 255, 0.12),
+        inset 0 1.5px 0 rgba(0, 242, 255, 0.25),
+        inset 0 -1px 0 rgba(0,0,0,0.15);
+}
+.category-btn:hover::before { opacity: 1; }
+
+.category-btn:active {
+    transform: translateY(-1px) scale(0.986);
+    background: var(--glass-bg-active);
+    box-shadow:
+        0 4px 16px var(--glass-shadow),
+        inset 0 1px 0 rgba(0, 242, 255, 0.20);
+}
+
+/* ─── BOTÓN IA – siempre morado, ignora el hover cian ─── */
+.btn-ia {
+    width: 100%;
+    margin-top: 25px;
+    background: rgba(163, 71, 255, 0.12) !important;
+    border: 1px solid rgba(163, 71, 255, 0.42) !important;
+    color: var(--ia-accent) !important;
+    font-weight: bold;
+    box-shadow:
+        0 6px 24px rgba(163, 71, 255, 0.18),
+        inset 0 1px 0 rgba(200, 140, 255, 0.28),
+        inset 0 -1px 0 rgba(0,0,0,0.12) !important;
+}
+.btn-ia::before {
+    background: linear-gradient(135deg,
+        rgba(163, 71, 255, 0.10) 0%,
+        rgba(163, 71, 255, 0.00) 60%) !important;
+}
+.btn-ia:hover {
+    background: rgba(163, 71, 255, 0.20) !important;
+    border-color: rgba(163, 71, 255, 0.68) !important;
+    color: var(--ia-accent) !important;
+    text-shadow: 0 0 12px rgba(163, 71, 255, 0.7) !important;
+    box-shadow:
+        0 12px 36px rgba(163, 71, 255, 0.28),
+        0 0 20px rgba(163, 71, 255, 0.14),
+        inset 0 1.5px 0 rgba(200, 140, 255, 0.38) !important;
+}
+
+/* ─── TARJETAS – glass oscuro ─── */
+.card, .ia-card {
+    padding: 50px 30px;
+    text-align: center;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 40px;
+    backdrop-filter: blur(40px) saturate(180%) brightness(0.88);
+    -webkit-backdrop-filter: blur(40px) saturate(180%) brightness(0.88);
+    box-shadow:
+        0 20px 60px var(--glass-shadow),
+        inset 0 1.5px 0 var(--glass-shine),
+        inset 0 -1px 0 rgba(0,0,0,0.18);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Sheen superior de la tarjeta */
+.card::before, .ia-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 50%;
+    border-radius: 40px 40px 80% 80% / 40px 40px 40px 40px;
+    background: linear-gradient(160deg,
+        rgba(255,255,255,0.06) 0%,
+        rgba(255,255,255,0.00) 60%);
+    pointer-events: none;
+}
+
+.emoji { font-size: 50px; display: block; margin-bottom: 20px; }
+h2 { font-weight: 200; font-size: 24px; margin-bottom: 25px; letter-spacing: 1px; }
+
+/* ─── INPUTS ─── */
+input, #userInputIA {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10) !important;
+    color: var(--text);
+    width: 100%;
+    padding: 12px;
+    font-size: 19px;
+    text-align: center;
+    outline: none;
+    transition: all 0.4s ease;
+    font-family: inherit;
+}
+#userInputIA {
+    height: 75px;
+    resize: none;
+    margin-bottom: 15px;
+    font-size: 17px;
+}
+input:focus, #userInputIA:focus {
+    border-bottom-color: var(--ia-accent) !important;
+}
+
+/* ─── ELEMENTOS IA ─── */
+.token-meter { margin-bottom: 25px; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; }
+.token-header { display: flex; justify-content: space-between; margin-bottom: 8px; opacity: 0.5; }
+.progress-bar { height: 3px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0%; background: var(--ia-accent); box-shadow: 0 0 10px var(--ia-accent); transition: width 0.8s ease; }
+
+/* ─── TENSE SELECTOR – pills con hover cian ─── */
+.tense-selector { display: flex; gap: 8px; margin-bottom: 25px; }
+
+.tense-btn {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.40);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    box-shadow:
+        0 4px 14px rgba(0,0,0,0.35),
+        inset 0 1px 0 rgba(255,255,255,0.12);
+    color: var(--text);
+    padding: 12px;
+    border-radius: 50px;
+    font-size: 9px;
+    cursor: pointer;
+    transition: all 0.28s cubic-bezier(0.2, 1, 0.3, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tense-btn:hover {
+    background: rgba(0, 242, 255, 0.10);
+    border-color: rgba(0, 242, 255, 0.55);
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+    box-shadow:
+        0 6px 18px rgba(0,0,0,0.35),
+        0 0 14px rgba(0, 242, 255, 0.10),
+        inset 0 1.5px 0 rgba(0, 242, 255, 0.22);
+    transform: translateY(-1px);
+}
+
+.tense-btn.active {
+    background: rgba(163, 71, 255, 0.18);
+    border-color: rgba(163, 71, 255, 0.55);
+    color: var(--ia-accent);
+    box-shadow:
+        0 4px 18px rgba(163, 71, 255, 0.25),
+        inset 0 1px 0 rgba(200, 140, 255, 0.32),
+        inset 0 -1px 0 rgba(0,0,0,0.10);
+}
+
+.spanish-display {
+    min-height: 70px; display: flex; align-items: center; justify-content: center;
+    font-size: 19px; font-weight: 200; text-align: center; line-height: 1.5;
+    padding: 10px; margin-bottom: 10px;
+}
+
+.button-group { display: flex; gap: 10px; margin-top: 15px; }
+
+/* Botón secundario (Nueva Oración) */
+.category-btn.secondary {
+    opacity: 0.42;
+    font-size: 8px;
+    background: rgba(0,0,0,0.35) !important;
+    border-color: rgba(255,255,255,0.08) !important;
+}
+
+.ia-feedback {
+    margin: 10px 0; font-size: 11px; font-weight: 600;
+    color: var(--ia-accent); min-height: 20px; letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* ─── UTILIDADES ─── */
+.back-link {
+    color: var(--accent); font-size: 9px; font-weight: 800;
+    cursor: pointer; margin-bottom: 20px; display: inline-block;
+    letter-spacing: 3px; text-transform: uppercase; opacity: 0.5;
+    transition: 0.3s;
+}
+.back-link:hover { opacity: 1; }
+
+/* ─── THEME TOGGLE – glass oscuro ─── */
+#theme-toggle {
+    position: fixed; top: 20px; right: 20px;
+    background: rgba(0, 0, 0, 0.50);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    box-shadow:
+        0 4px 16px var(--glass-shadow),
+        inset 0 1px 0 var(--glass-shine);
+    color: var(--text);
+    width: 42px; height: 42px;
+    border-radius: 50%; cursor: pointer; z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s ease;
+}
+#theme-toggle:hover {
+    background: rgba(0, 242, 255, 0.12);
+    border-color: rgba(0, 242, 255, 0.55);
+    box-shadow:
+        0 8px 24px var(--glass-shadow),
+        0 0 16px rgba(0, 242, 255, 0.12),
+        inset 0 1.5px 0 rgba(0, 242, 255, 0.22);
+    transform: scale(1.08);
+}
+
+/* ─── FEEDBACK ─── */
+#feedback {
+    margin-top: 25px; font-size: 11px; font-weight: bold;
+    color: var(--accent); letter-spacing: 2px; text-transform: uppercase;
+    opacity: 0.8;
+}
+
+/* ─── MENÚ PRINCIPAL: solo 3 botones grandes ─── */
+.main-menu-list {
+    gap: 16px;
+}
+
+/* ─── BOTÓN LEVEL 1 ─── */
+.btn-level {
+    width: 100%;
+    background: rgba(0, 242, 255, 0.08) !important;
+    border: 1px solid rgba(0, 242, 255, 0.38) !important;
+    color: var(--accent) !important;
+    font-weight: bold;
+    box-shadow:
+        0 6px 24px rgba(0, 242, 255, 0.14),
+        inset 0 1px 0 rgba(0, 242, 255, 0.22),
+        inset 0 -1px 0 rgba(0,0,0,0.12) !important;
+}
+.btn-level::before {
+    background: linear-gradient(135deg,
+        rgba(0, 242, 255, 0.10) 0%,
+        rgba(0, 242, 255, 0.00) 60%) !important;
+}
+.btn-level:hover {
+    background: rgba(0, 242, 255, 0.18) !important;
+    border-color: rgba(0, 242, 255, 0.70) !important;
+    color: var(--accent) !important;
+    text-shadow: 0 0 14px rgba(0, 242, 255, 0.8) !important;
+    box-shadow:
+        0 12px 36px rgba(0, 242, 255, 0.22),
+        0 0 22px rgba(0, 242, 255, 0.14),
+        inset 0 1.5px 0 rgba(0, 242, 255, 0.32) !important;
+}
+
+/* ─── PANTALLA LEVEL 1: scroll si hay muchas categorías ─── */
+#level-screen {
+    display: flex;
+    flex-direction: column;
+    max-height: 92vh;
+    overflow: hidden;
+}
+#level-screen .category-list {
+    overflow-y: auto;
+    padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,242,255,0.3) transparent;
+}
+#level-screen .category-list::-webkit-scrollbar {
+    width: 4px;
+}
+#level-screen .category-list::-webkit-scrollbar-thumb {
+    background: rgba(0,242,255,0.3);
+    border-radius: 10px;
+}
+
+/* ── Menú principal ─────────────────────────────────── */
+.main-menu-list { gap: 16px; }
+#level-buttons-container { display: contents; }
+
+/* ── Botones de nivel (Level 1, Level 2…) ───────────── */
+.btn-level {
+    width: 100%;
+    background: rgba(0,242,255,0.08) !important;
+    border: 1px solid rgba(0,242,255,0.38) !important;
+    color: var(--accent) !important;
+    font-weight: bold;
+    box-shadow: 0 6px 24px rgba(0,242,255,0.14),
+                inset 0 1px 0 rgba(0,242,255,0.22) !important;
+}
+.btn-level:hover {
+    background: rgba(0,242,255,0.18) !important;
+    border-color: rgba(0,242,255,0.70) !important;
+    text-shadow: 0 0 14px rgba(0,242,255,0.8) !important;
+    box-shadow: 0 12px 36px rgba(0,242,255,0.22),
+                inset 0 1.5px 0 rgba(0,242,255,0.32) !important;
+}
+
+/* ── Pantalla de nivel: scroll si hay muchas categorías ─ */
+#level-screen {
+    display: flex;
+    flex-direction: column;
+    max-height: 92vh;
+    overflow: hidden;
+}
+#level-screen .category-list {
+    overflow-y: auto;
+    padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,242,255,0.3) transparent;
+}
+#level-screen .category-list::-webkit-scrollbar { width: 4px; }
+#level-screen .category-list::-webkit-scrollbar-thumb {
+    background: rgba(0,242,255,0.3);
+    border-radius: 10px;
+}

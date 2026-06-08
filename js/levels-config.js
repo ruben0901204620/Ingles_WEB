@@ -19,7 +19,7 @@ const LEVELS_CONFIG = [
         label: "Level 1",
         icon: "📚",
         categories: [
-            { name: "Countries & Nationalities",  data: VOC_countries         },
+            { name: "Countries & Nationalities",   data: VOC_countries        },
             { name: "Personal Objects",            data: VOC_personal_objects },
             { name: "Jobs",                        data: VOC_jobs             },
             { name: "Family",                      data: VOC_family           },
@@ -36,11 +36,24 @@ const LEVELS_CONFIG = [
             { name: "Life Stages",                 data: VOC_life_stages      },
         ]
     },
+    
+    {
+        id: "level2",
+        label: "Level 2",
+        icon: "🚀", 
+        categories: [
+            { name: "School Subject and Education",    data: VOC_school_subject_and_education    },
+            { name: "Resolutions",                     data: VOC_resolutions     },
+            { name: "Common Adjetives",                     data: VOC_common_adjectives     },
+            { name: "Describing appearance",                     data: VOC_describing_appearance     }, 
+             { name: "personality Adjetives",                     data: VOC_personality_adjectives     },
+        ]
+    },
 
-    // ── Ejemplo de cómo agregar Level 2 en el futuro ──────────────
+    // ── Ejemplo de cómo agregar Level # en el futuro ──────────────
     // {
-    //     id: "level2",
-    //     label: "Level 2",
+    //     id: "level#",
+    //     label: "Level #",
     //     icon: "🚀",
     //     categories: [
     //         { name: "Animals",    data: VOC_animals    },

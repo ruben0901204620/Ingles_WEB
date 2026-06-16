@@ -23,19 +23,22 @@ function toggleTheme() {
 }
 
 function updateStarColor() {
-    const iaVisible = !document.getElementById('ia-screen').classList.contains('hidden');
-    if (iaVisible) {
-        starRGB = { r: 163, g: 71, b: 255 };
-    } else if (isAllMode) {
-        // arcoíris gestionado por Particle.draw()
+    const iaVisible    = !document.getElementById('ia-screen').classList.contains('hidden');
+    const verbsVisible = !document.getElementById('verbs-screen').classList.contains('hidden');
+    if (isAllMode) {
+        // arcoíris gestionado por Particle.draw() — no tocar starRGB
+    } else if (iaVisible) {
+        starRGB = isLightMode ? { r: 123, g: 43, b: 226 } : { r: 163, g: 71, b: 255 };
+    } else if (verbsVisible) {
+        starRGB = isLightMode ? { r: 0, g: 168, b: 85 } : { r: 80, g: 255, b: 150 };
     } else {
-        starRGB = isLightMode ? { r: 0, g: 0, b: 255 } : { r: 0, g: 242, b: 255 };
+        starRGB = isLightMode ? { r: 0, g: 68, b: 220 } : { r: 0, g: 242, b: 255 };
     }
 }
 
 // ── Navegación ───────────────────────────────────────────────────
 function showScreen(id) {
-    ['menu-screen','level-screen','game-screen','ia-screen'].forEach(s => {
+    ['menu-screen','level-screen','game-screen','ia-screen','verbs-screen'].forEach(s => {
         document.getElementById(s).classList.add('hidden');
     });
     document.getElementById(id).classList.remove('hidden');
@@ -46,6 +49,7 @@ function goToMenu() {
     isAllMode = false;
     cameFromLevel = false;
     showScreen('menu-screen');
+    updateStarColor();
 }
 
 function showIAScreen() { showScreen('ia-screen'); }

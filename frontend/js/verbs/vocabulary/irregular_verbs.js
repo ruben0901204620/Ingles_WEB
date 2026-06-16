@@ -1,0 +1,61 @@
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║                     VERBS DATA                                   ║
+// ║  Para agregar más verbos: solo agrega objetos a los arrays       ║
+// ║  Formato: { base:"drive", past:"drove", spanish:"manejar",       ║
+// ║             participle:"driven", e:"🚗" }                        ║
+// ║  (participle es opcional)                                        ║
+// ╚══════════════════════════════════════════════════════════════════╝
+
+const IRREGULAR_VERBS = [
+    { base:"drive",    past:"drove",    participle:"driven",    spanish:"manejar",      e:"🚗" },
+    { base:"go",       past:"went",     participle:"gone",      spanish:"ir",           e:"🚶" },
+    { base:"come",     past:"came",     participle:"come",      spanish:"venir",        e:"👋" },
+    { base:"see",      past:"saw",      participle:"seen",      spanish:"ver",          e:"👀" },
+    { base:"eat",      past:"ate",      participle:"eaten",     spanish:"comer",        e:"🍽️" },
+    { base:"drink",    past:"drank",    participle:"drunk",     spanish:"beber",        e:"🥤" },
+    { base:"run",      past:"ran",      participle:"run",       spanish:"correr",       e:"🏃" },
+    { base:"write",    past:"wrote",    participle:"written",   spanish:"escribir",     e:"✍️" },
+    { base:"read",     past:"read",     participle:"read",      spanish:"leer",         e:"📖" },
+    { base:"speak",    past:"spoke",    participle:"spoken",    spanish:"hablar",       e:"💬" },
+    { base:"take",     past:"took",     participle:"taken",     spanish:"tomar",        e:"🤲" },
+    { base:"give",     past:"gave",     participle:"given",     spanish:"dar",          e:"🎁" },
+    { base:"know",     past:"knew",     participle:"known",     spanish:"saber/conocer",e:"🧠" },
+    { base:"think",    past:"thought",  participle:"thought",   spanish:"pensar",       e:"💭" },
+    { base:"buy",      past:"bought",   participle:"bought",    spanish:"comprar",      e:"🛒" },
+    { base:"bring",    past:"brought",  participle:"brought",   spanish:"traer",        e:"📦" },
+    { base:"teach",    past:"taught",   participle:"taught",    spanish:"enseñar",      e:"👩‍🏫" },
+    { base:"catch",    past:"caught",   participle:"caught",    spanish:"atrapar",      e:"🤾" },
+    { base:"make",     past:"made",     participle:"made",      spanish:"hacer",        e:"🔨" },
+    { base:"find",     past:"found",    participle:"found",     spanish:"encontrar",    e:"🔍" },
+    { base:"tell",     past:"told",     participle:"told",      spanish:"decir/contar", e:"🗣️" },
+    { base:"feel",     past:"felt",     participle:"felt",      spanish:"sentir",       e:"💓" },
+    { base:"leave",    past:"left",     participle:"left",      spanish:"dejar/salir",  e:"🚪" },
+    { base:"sleep",    past:"slept",    participle:"slept",     spanish:"dormir",       e:"😴" },
+    { base:"meet",     past:"met",      participle:"met",       spanish:"conocer/reunirse",e:"🤝" },
+    { base:"put",      past:"put",      participle:"put",       spanish:"poner",        e:"📌" },
+    { base:"cut",      past:"cut",      participle:"cut",       spanish:"cortar",       e:"✂️" },
+    { base:"sit",      past:"sat",      participle:"sat",       spanish:"sentarse",     e:"🪑" },
+    { base:"stand",    past:"stood",    participle:"stood",     spanish:"pararse",      e:"🧍" },
+    { base:"swim",     past:"swam",     participle:"swum",      spanish:"nadar",        e:"🏊" },
+    { base:"fly",      past:"flew",     participle:"flown",     spanish:"volar",        e:"✈️" },
+    { base:"grow",     past:"grew",     participle:"grown",     spanish:"crecer",       e:"🌱" },
+    { base:"throw",    past:"threw",    participle:"thrown",    spanish:"lanzar",       e:"⚾" },
+    { base:"blow",     past:"blew",     participle:"blown",     spanish:"soplar",       e:"💨" },
+    { base:"draw",     past:"drew",     participle:"drawn",     spanish:"dibujar",      e:"🎨" },
+    { base:"wear",     past:"wore",     participle:"worn",      spanish:"usar/llevar puesto",e:"👕" },
+    { base:"break",    past:"broke",    participle:"broken",    spanish:"romper",       e:"💥" },
+    { base:"choose",   past:"chose",    participle:"chosen",    spanish:"elegir",       e:"🎯" },
+    { base:"sing",     past:"sang",     participle:"sung",      spanish:"cantar",       e:"🎵" },
+    { base:"ring",     past:"rang",     participle:"rung",      spanish:"sonar/llamar", e:"🔔" },
+    { base:"begin",    past:"began",    participle:"begun",     spanish:"comenzar",     e:"🚀" },
+    { base:"win",      past:"won",      participle:"won",       spanish:"ganar",        e:"🏆" },
+    { base:"lose",     past:"lost",     participle:"lost",      spanish:"perder",       e:"😢" },
+    { base:"build",    past:"built",    participle:"built",     spanish:"construir",    e:"🏗️" },
+    { base:"pay",      past:"paid",     participle:"paid",      spanish:"pagar",        e:"💳" },
+    { base:"say",      past:"said",     participle:"said",      spanish:"decir",        e:"💬" },
+    { base:"sell",     past:"sold",     participle:"sold",      spanish:"vender",       e:"🏪" },
+    { base:"hold",     past:"held",     participle:"held",      spanish:"sostener",     e:"🤚" },
+    { base:"hear",     past:"heard",    participle:"heard",     spanish:"escuchar",     e:"👂" },
+    { base:"send",     past:"sent",     participle:"sent",      spanish:"enviar",       e:"📤" },
+];
+

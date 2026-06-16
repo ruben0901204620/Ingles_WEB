@@ -1,5 +1,5 @@
 // --- CONFIGURACIÓN CONEXIÓN NODE.JS ---
-const API_URL = "https://ingles-web-c262.onrender.com/api/chat"; // 👈 ¡Tiene que terminar con /api/chat!
+const API_URL = "https://ingles-web-c262.onrender.com/api/chat"; 
 const TOKEN_LIMIT = 5000000;
 
 let tokensUsed = localStorage.getItem('tokensUsed') ? parseInt(localStorage.getItem('tokensUsed')) : 0;
